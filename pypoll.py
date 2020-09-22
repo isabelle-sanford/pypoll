@@ -8,6 +8,7 @@ with open('election_data.csv', 'r') as csvfile:
     print(f"CSV Header: {header}")
 
     candidates = {}
+    vote_count = 0
 
     for row in f:
         # total votes
@@ -19,15 +20,15 @@ with open('election_data.csv', 'r') as csvfile:
         else:
             candidates[row[2]] = 1
     
-    won_votes = max(list(candidates.values()))
-    won_candidate = candidates[won_votes]
+    winner = max(candidates, key = candidates.get)
+
 
     print(f"Total Votes: {vote_count}")
 
-    for cand, vote in candidates:
-        print(f"{cand}: {votes / vote_count * 100}% ({votes}")
+    for cand, vote in candidates.items():
+        print(f"{cand}: {vote / vote_count * 100}% ({vote})")
     
-    print(f"Winner: {won_candidate}")
+    print(f"Winner: {winner}")
 
 
 
