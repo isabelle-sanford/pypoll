@@ -1,48 +1,44 @@
-import os
+# import csv reader package
 import csv
+# Note: not importing os package because it was finicky on Windows
+# so the file is just stored in the same folder as this script
 
+# open and read csv
 with open('election_data.csv', 'r') as csvfile:
     f = csv.reader(csvfile, delimiter = ',')
 
+    # read in hdeader row
     header = next(f)
-    print(f"CSV Header: {header}")
+    #print(f"CSV Header: {header}")
 
+    # initialize variables for for loop
     candidates = {}
     vote_count = 0
 
+    # loop through remainder of file
     for row in f:
-        # total votes
+        # increment total votes
         vote_count += 1
 
-        # dict of votes per candidate
+        # check for candidate in dict
         if row[2] in candidates:
+            # increment that candidate by one
             candidates[row[2]] += 1
         else:
+            # add new dict entry with 1 vote
             candidates[row[2]] = 1
     
+    # 'key' argument is an optional function you can apply to each
+    # argument in the iterable before finding the max (but it'll still
+    # return the original value in max, not the operated-on one)
+    # => look up values and find max value, then return corresponding candidate
     winner = max(candidates, key = candidates.get)
 
-
+    # PRINT OUTPUT
     print(f"Total Votes: {vote_count}")
 
     for cand, vote in candidates.items():
-        print(f"{cand}: {vote / vote_count * 100}% ({vote})")
+        print(f"{cand}: {round(vote / vote_count * 100, 3)}% ({vote})")
     
     print(f"Winner: {winner}")
 
-
-
-
-#   
-#   Election Results
-#   -------------------------
-#   Total Votes: 3521001
-#   -------------------------
-#   Khan: 63.000% (2218231)
-#   Correy: 20.000% (704200)
-#   Li: 14.000% (492940)
-#   O'Tooley: 3.000% (105630)
-#   -------------------------
-#   Winner: Khan
-#   -------------------------
-#   
