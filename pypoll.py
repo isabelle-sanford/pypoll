@@ -34,11 +34,21 @@ with open('election_data.csv', 'r') as csvfile:
     # => look up values and find max value, then return corresponding candidate
     winner = max(candidates, key = candidates.get)
 
-    # PRINT OUTPUT
-    print(f"Total Votes: {vote_count}")
-
+    # output
+    final = ("================\n"
+            + "ELECTION RESULTS\n" 
+            + "================\n" 
+            + f"Total Votes: {vote_count} \n \n" 
+            + "CANDIDATE BREAKDOWN \n")
     for cand, vote in candidates.items():
-        print(f"{cand}: {round(vote / vote_count * 100, 3)}% ({vote})")
+        final += f"{cand}: {round(vote / vote_count * 100, 3)}% ({vote}) \n"
     
-    print(f"Winner: {winner}")
+    final += f"\nWinner: {winner}"
+
+    # print output
+    print(final)
+
+    # write output to text file
+    with open("results.txt", "w", newline = "") as results:
+        results.write(final)
 
