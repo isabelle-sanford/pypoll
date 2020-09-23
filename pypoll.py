@@ -7,11 +7,10 @@ import csv
 with open('election_data.csv', 'r') as csvfile:
     f = csv.reader(csvfile, delimiter = ',')
 
-    # read in hdeader row
+# read in header row, mainly to remove from iterable
     header = next(f)
-    #print(f"CSV Header: {header}")
 
-    # initialize variables for for loop
+# initialize variables for for loop
     candidates = {}
     vote_count = 0
 
@@ -25,7 +24,7 @@ with open('election_data.csv', 'r') as csvfile:
             # increment that candidate by one
             candidates[row[2]] += 1
         else:
-            # add new dict entry with 1 vote
+            # add new candidate to dict with 1 vote
             candidates[row[2]] = 1
     
     # 'key' argument is an optional function you can apply to each
@@ -34,16 +33,20 @@ with open('election_data.csv', 'r') as csvfile:
     # => look up values and find max value, then return corresponding candidate
     winner = max(candidates, key = candidates.get)
 
-    # output
+    # output string concatenation
     final = ("================\n"
             + "ELECTION RESULTS\n" 
             + "================\n" 
             + f"Total Votes: {vote_count} \n \n" 
             + "CANDIDATE BREAKDOWN \n")
+    
+    # list candidates with % and vote count
     for cand, vote in candidates.items():
         final += f"{cand}: {round(vote / vote_count * 100, 3)}% ({vote}) \n"
     
+    # list winner
     final += f"\nWinner: {winner}"
+
 
     # print output
     print(final)
